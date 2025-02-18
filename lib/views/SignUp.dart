@@ -27,6 +27,13 @@ class _SignupState extends State<Signup> {
         title: Text("Sign Up User"),
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
+        actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+                icon: Icon(Icons.add))
+          ],
       ),
       body: SingleChildScrollView(
         child: Container(
