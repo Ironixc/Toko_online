@@ -17,7 +17,7 @@ class _SignupState extends State<Signup> {
   TextEditingController password = TextEditingController();
   TextEditingController Adrees = TextEditingController();
   TextEditingController phone = TextEditingController();
-  List<String> roleChoices = ["Pegawai", "Pelanggan"];
+  List<String> roleChoices = ["pegawai", "pelanggan"];
   String? role;
 
   @override
