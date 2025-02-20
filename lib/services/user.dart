@@ -31,8 +31,8 @@ class UserService {
     var responseData = json.decode(loginUser.body);
 
     if (responseData["status"] == true) {
-      var user = responseData["data"]; // ✅ Correctly access "data"
-      var tokenData = responseData["authorisation"]; // ✅ Correct token access
+      var user = responseData["data"];
+      var tokenData = responseData["authorisation"];
 
       if (user == null || tokenData == null) {
         return DataMap(status: false, message: "User data or token missing in response");

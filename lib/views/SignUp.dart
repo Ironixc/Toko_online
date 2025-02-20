@@ -1,5 +1,5 @@
-import 'package:api_toko_online/services/user.dart';
 import 'package:flutter/material.dart';
+import 'package:api_toko_online/services/user.dart';
 import 'package:api_toko_online/widgets/alert.dart';
 
 class Signup extends StatefulWidget {
@@ -19,139 +19,194 @@ class _SignupState extends State<Signup> {
   TextEditingController phone = TextEditingController();
   List<String> roleChoices = ["pegawai", "pelanggan"];
   String? role;
+  bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Sign Up User"),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-        actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/login');
-                },
-                icon: Icon(Icons.add))
-          ],
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(10),
-          padding: EdgeInsets.all(10),
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(color: Colors.white),
-          child: Column(
-            children: [
-              Text(
-                "Register User",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.green.shade700, Colors.green.shade300],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Card(
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Register User",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green.shade800,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        buildTextField("Name", Icons.person, name),
+                        buildTextField("Email", Icons.email, email),
+                        buildTextField("Address", Icons.home, Adrees),
+                        buildTextField("Phone Number", Icons.phone, phone),
+                        buildDropdownField(),
+                        SizedBox(height: 10),
+                        TextFormField(
+                          controller: password,
+                          obscureText: !isPasswordVisible,
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  isPasswordVisible = !isPasswordVisible;
+                                });
+                              },
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) return 'Password is required';
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: register,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 50,
+                            ),
+                          ),
+                          child: Text(
+                            "Register",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Already have an account? "),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(context, '/login');
+                              },
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: name,
-                      decoration: InputDecoration(label: Text("Name")),
-                      validator: (value) {
-                        if (value!.isEmpty) return 'Name is required';
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: email,
-                      decoration: InputDecoration(label: Text("Email")),
-                      validator: (value) {
-                        if (value!.isEmpty) return 'Email is required';
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: Adrees,
-                      decoration: InputDecoration(label: Text("Adrees")),
-                      validator: (value) {
-                        if (value!.isEmpty) return 'Adrees is required';
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: phone,
-                      decoration: InputDecoration(label: Text("Phone Number")),
-                      validator: (value) {
-                        if (value!.isEmpty) return 'Phone number is required';
-                        return null;
-                      },
-                    ),
-                    DropdownButtonFormField(
-                      isExpanded: true,
-                      value: role,
-                      items: roleChoices.map((r) {
-                        return DropdownMenuItem(value: r, child: Text(r));
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          role = value.toString();
-                        });
-                      },
-                      hint: Text("Select Role"),
-                      validator: (value) {
-                        if (value == null) return 'Role is required';
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: password,
-                      decoration: InputDecoration(label: Text("Password")),
-                      validator: (value) {
-                        if (value!.isEmpty) return 'Password is required';
-                        return null;
-                      },
-                    ),
-                    MaterialButton(
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          var data = {
-                            "name": name.text,
-                            "email": email.text,
-                            "Adrees": Adrees.text,
-                            "phone": phone.text,
-                            "role": role,
-                            "password": password.text,
-                          };
-
-                          var result = await userService.registerUser(data);
-                          print("API Result: ${result.status} - ${result.message}");
-
-                          if (result.status == true) {
-                            name.clear();
-                            email.clear();
-                            password.clear();
-                            Adrees.clear();
-                            phone.clear();
-                            setState(() {
-                              role = null;
-                            });
-                            AlertMessage().showAlert(context, result.message, true);
-                            Future.delayed(Duration(seconds: 2), () {
-                              Navigator.pushReplacementNamed(context, '/login');
-                            });
-                          } else {
-                            AlertMessage().showAlert(context, result.message, false);
-                          }
-                        }
-                      },
-                      child: Text("Register"),
-                      color: Colors.lightGreen,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Widget buildTextField(String label, IconData icon, TextEditingController controller) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          prefixIcon: Icon(icon, color: Colors.black),
+          labelText: label,
+          filled: true,
+          fillColor: Colors.grey[200],
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        validator: (value) => value!.isEmpty ? "$label harus diisi" : null,
+      ),
+    );
+  }
+
+  Widget buildDropdownField() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: DropdownButtonFormField(
+        isExpanded: true,
+        value: role,
+        items: roleChoices.map((r) => DropdownMenuItem(value: r, child: Text(r))).toList(),
+        onChanged: (value) => setState(() => role = value.toString()),
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.person_outline, color: Colors.black),
+          labelText: "Pilih Role",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        validator: (value) => value == null ? "Role harus dipilih" : null,
+      ),
+    );
+  }
+
+  Future<void> register() async {
+    if (formKey.currentState!.validate()) {
+      var data = {
+        "name": name.text,
+        "email": email.text,
+        "Adrees": Adrees.text,
+        "phone": phone.text,
+        "role": role,
+        "password": password.text,
+      };
+
+      var result = await userService.registerUser(data);
+      if (result.status == true) {
+        name.clear();
+        email.clear();
+        password.clear();
+        Adrees.clear();
+        phone.clear();
+        setState(() => role = null);
+        AlertMessage().showAlert(context, result.message, true);
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.pushReplacementNamed(context, '/login');
+        });
+      } else {
+        AlertMessage().showAlert(context, result.message, false);
+      }
+    }
   }
 }
