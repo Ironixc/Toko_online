@@ -24,7 +24,6 @@ class _DashboardState extends State<Dashboard> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUserLogin();
   }

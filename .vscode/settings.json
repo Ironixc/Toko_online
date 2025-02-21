@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "C:/Users/Arya/Downloads/d/api_toko_online/linux"
+    "cmake.sourceDirectory": "C:/Users/Arya/Downloads/d/api_toko_online/linux",
+    "cmake.ignoreCMakeListsMissing": true
 }

@@ -122,7 +122,8 @@ class _SignupState extends State<Signup> {
                             Text("Already have an account? "),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushReplacementNamed(context, '/login');
+                                Navigator.pushReplacementNamed(
+                                    context, '/login');
                               },
                               child: Text(
                                 "Login",
@@ -146,18 +147,21 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  Widget buildTextField(String label, IconData icon, TextEditingController controller) {
+  Widget buildTextField(
+      String label, IconData icon, TextEditingController controller) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: Colors.black),
-          labelText: label,
-          filled: true,
-          fillColor: Colors.grey[200],
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-        ),
+            prefixIcon: Icon(icon, color: Colors.black),
+            labelText: label,
+            filled: true,
+            fillColor: Colors.grey[200],
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
+            )),
         validator: (value) => value!.isEmpty ? "$label harus diisi" : null,
       ),
     );
@@ -169,7 +173,9 @@ class _SignupState extends State<Signup> {
       child: DropdownButtonFormField(
         isExpanded: true,
         value: role,
-        items: roleChoices.map((r) => DropdownMenuItem(value: r, child: Text(r))).toList(),
+        items: roleChoices
+            .map((r) => DropdownMenuItem(value: r, child: Text(r)))
+            .toList(),
         onChanged: (value) => setState(() => role = value.toString()),
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.person_outline, color: Colors.black),

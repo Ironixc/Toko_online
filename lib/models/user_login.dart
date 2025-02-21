@@ -8,14 +8,19 @@ class UserLogin {
   String? nama_user;
   String? email;
   String? role;
-  UserLogin(
-      {this.status,
-      this.token,
-      this.message,
-      this.id,
-      this.nama_user,
-      this.email,
-      this.role});
+  String? Adrees;
+  String? phone;
+  UserLogin({
+    this.status,
+    this.token,
+    this.message,
+    this.id,
+    this.nama_user,
+    this.email,
+    this.role,
+    this.Adrees,
+    this.phone,
+  });
 
     Future prefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -26,6 +31,8 @@ class UserLogin {
     prefs.setString("nama_user", nama_user!);
     prefs.setString("email", email!);
     prefs.setString("role", role!);
+    prefs.setString("Adrees", Adrees!);
+    prefs.setString("phone", phone!);
   }
 
   Future getUserLogin() async {
@@ -37,7 +44,9 @@ class UserLogin {
         id: prefs.getInt("id")!,
         nama_user: prefs.getString("nama_user")!,
         email: prefs.getString("email")!,
-        role: prefs.getString("role")!);
+        role: prefs.getString("role")!,
+        Adrees: prefs.getString("Adrees")!,
+        phone: prefs.getString("phone")!);
     return userLogin;
   }
 }

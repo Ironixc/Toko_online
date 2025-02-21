@@ -25,7 +25,6 @@ class _NavbarState extends State<Navbar> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     DataLogin();
   }
