@@ -18,7 +18,6 @@ class _DashboardState extends State<Dashboard> {
     if (user.status != false){
       setState(() {
         nama = user.nama_user;
-        role = user.role;
       });
     }
   }
@@ -43,7 +42,7 @@ class _DashboardState extends State<Dashboard> {
               icon: Icon(Icons.logout))
         ],
       ),
-      body: Center(child: Text("Selamat Datang $nama role anda $role")),
+      body: Center(child: Text("Selamat Datang $nama")),
       bottomNavigationBar: Navbar(0),
     );
   }

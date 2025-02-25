@@ -17,6 +17,37 @@ class _LoginState extends State<Login> {
   bool isLoading = false;
   bool showPass = true;
 
+  Widget buildTextField(String label, IconData icon, TextEditingController controller, {bool obscureText = false}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          prefixIcon: Icon(icon, color: Colors.black),
+          labelText: label,
+          filled: true,
+          fillColor: Colors.grey[200],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
+          ),
+          suffixIcon: label == "Password"
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      showPass = !showPass;
+                    });
+                  },
+                  icon: Icon(showPass ? Icons.visibility : Icons.visibility_off),
+                )
+              : null,
+        ),
+        validator: (value) => value!.isEmpty ? "$label harus diisi" : null,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,52 +84,8 @@ class _LoginState extends State<Login> {
                     key: formKey,
                     child: Column(
                       children: [
-                        TextFormField(
-                          controller: email,
-                          decoration: InputDecoration(
-                            labelText: "Email",
-                            prefixIcon: Icon(Icons.email, color: Colors.black),
-                            filled: true,
-                            fillColor: Colors.grey[200],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) return 'Email harus diisi';
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          controller: password,
-                          obscureText: showPass,
-                          decoration: InputDecoration(
-                            labelText: "Password",
-                            prefixIcon: Icon(Icons.lock, color: Colors.black),
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  showPass = !showPass;
-                                });
-                              },
-                              icon: Icon(
-                                showPass ? Icons.visibility : Icons.visibility_off,
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[200],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) return 'Password harus diisi';
-                            return null;
-                          },
-                        ),
+                        buildTextField("Email", Icons.email, email),
+                        buildTextField("Password", Icons.lock, password, obscureText: showPass),
                         SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () async {
